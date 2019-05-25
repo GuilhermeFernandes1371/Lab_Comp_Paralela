@@ -1,0 +1,176 @@
+swagger: "2.0"
+info:
+  description: "Esta página faz o cadastro de pessoa no banco de dados."
+  version: "1.0.0"
+  title: "Cadastro de Pessoas"
+  termsOfService: "http://localhost/htdocs/"
+  contact:
+    email: "guilhermehfernandes1371@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/WS_JSON/"
+tags:
+- name: "Pessoa"
+  description: "Cadastra registros de Pessoas"
+  externalDocs:
+    description: "Cadastra Pessoa"
+    url: "http://localhost/WS_JSON/"
+- name: "Pessoa"
+  description: "Acesso a cadastro de pessoas"
+schemes:
+- "https"
+- "http"
+paths:
+  /pessoa/cadastraPessoa:
+    post:
+      tags:
+      - "Pessoa"
+      summary: "Adicione um novo cadastro de pessoa ao banco"
+      description: ""
+      operationId: "addPessoa"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Pessoa que vai ser adicionado ao banco"
+        required: true
+        schema:
+          $ref: "#/definitions/Create"
+      responses:
+        200:
+          description: "OK"
+        201:
+          description: "Criação OK"
+        405:
+          description: "Invalid input"
+
+  /pessoa/decodeJSON:
+    get:
+      tags:
+      - "Pessoa"
+      summary: "Buscar pessoas no banco pelo id"
+      description: ""
+      operationId: "readpessoa"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Lista de todos os pessoa do banco"
+        required: true
+        schema:
+          $ref: "#/definitions/Id"
+      responses:
+        200:
+          description: "Ok"
+
+  /pessoa/atualizaPessoa:
+    put:
+      tags:
+      - "pessoa"
+      summary: "Atualiza um pessoa do banco"
+      description: ""
+      operationId: "updatepessoa"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "pessoa que será atualizada ao banco"
+        required: true
+        schema:
+          $ref: "#/definitions/Id"
+      responses:
+        200:
+          description: "Usuario atualizado"
+        201:
+          description: "Usuario criado"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /pessoa/deletaPessoa:
+    delete:
+      tags:
+      - "pessoa"
+      summary: "Deletar um pessoa do banco pelo id"
+      description: ""
+      operationId: "deletepessoa"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "pessoaque vai ser deletado do banco"
+        required: true
+        schema:
+          $ref: "#/definitions/Id"
+      responses:
+        200:
+          description: "Pessoa deletada"
+        400:
+          description: "Id invalido"
+        404:
+          description: "User not found"
+
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Create:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nome:
+        type: "string"
+      email:
+        type: "string"
+      telefone:
+        type: "string"
+      cep:
+        type: "string"
+      rua:
+        type: "string"
+      numero:
+        type: "integer"
+        format: "int32"
+      cidade:
+        type: "string"
+      estado:
+        type: "string"  
+      rg:
+        type: "string"
+      cpf:
+        type: "string"
+    xml:
+      name: "pessoa
+  Id:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
